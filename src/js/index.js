@@ -61,7 +61,6 @@ form.addEventListener('submit', e => {
 		}
 	}
 
-	// AJAX magic
 	const url = `https://api.openweathermap.org/data/2.5/weather?q=${inputVal}&appid=${apiKey}&units=metric`
 
 	fetch(url)
@@ -76,7 +75,7 @@ form.addEventListener('submit', e => {
 			const {main, name, sys, weather} = data
 
 			// Define the icon location
-			const icon = `img/weather/${weather[0]['icon']}.svg`
+			const icon = `../src/img/weather/${weather[0]['icon']}.svg`
 
 			// Create the list item for the new city
 			const li = document.createElement('li')

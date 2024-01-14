@@ -19,7 +19,6 @@
 }
 
 
-
 /* ============================================================ */
 /* General styles */
 /* ============================================================ */
@@ -91,8 +90,6 @@ a:hover {
 	color: var(--p-tint-90);
 }
 
-
-
 /* ================================================= */
 /* Forms */
 /* ================================================= */
@@ -113,6 +110,16 @@ input {
 }
 
 input[type="text"] {
+	height: 2.75rem;
+	background: var(--p-shade-30) url('../img/search.svg') .75rem center no-repeat;
+	color: var(--p-tint-90);
+	padding-left: 2.25rem;
+	flex-grow: 1;
+	outline: none;
+	transition: var(--global-transition);
+}
+
+input[type="password"] {
 	height: 2.75rem;
 	background: var(--p-shade-30) url('../img/search.svg') .75rem center no-repeat;
 	color: var(--p-tint-90);

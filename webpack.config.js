@@ -2,8 +2,12 @@ var path = require('path')
 var Dotenv = require('dotenv-webpack')
 
 module.exports = {
+  entry: './src/js/index.js',
+  output: {
+    filename: 'index.js',
+    path: path.resolve(__dirname, 'dist'),
+  },
   plugins: [
-    // new webpack.NoEmitOnErrorsPlugin(),
     new Dotenv()
   ],
   stats: {
