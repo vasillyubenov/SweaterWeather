@@ -7,7 +7,7 @@ Features:
 - Real-time weather data
 - Location tracking
 - Custom notifications (e.g., temperature above/below a certain threshold, wind, snow)
-- Compare two locations by time
+- Compare two locations by weather
 - "When to Wake Up" feature: calculates the optimal wake-up time based on weather conditions and travel time
 Benefits:
 - Stay up-to-date on weather conditions
