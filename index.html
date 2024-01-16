@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -17,36 +18,89 @@
 	<!-- Main stylesheet -->
 	<link rel="stylesheet" href="./src/css/style.css">
 </head>
+
 <body>
-	<div class="notification">
-		<p><small>This demo needs an OpenWeather API key to work. <a target="_blank" href="https://home.openweathermap.org/users/sign_up">Get yours here for free!</a></small></p>
-	</div>  <!-- notify -->
+	<div class="reg-body">
+		<div class="form">
+			<div class="head" class="signup">
+				<div data-tab="login" class="login-tab">
+					Login
+				</div>
+				<div data-tab="signup" class="signup-tab">
+					Signup
+				</div>
+			</div>
+			<div class="body" id="form-body">
+				<div class="login">
+					<div class="form-row">
+						<label for="login-email">Email</label>
+						<input id="login-email" type="text" placeholder="Email" />
+					</div>
+					<div class="form-row">
+						<label for="login-password">Password</label>
+						<input id="login-password" type="password" placeholder="Password" />
+					</div>
+					<div class="form-row">
+						<button id="login-btn">Login</button>
+					</div>
+				</div>
+				<div class="signup">
+					<div class="form-row">
+						<label for="reg-username">Username</label>
+						<input id="reg-username" type="text" placeholder="Userame" />
+					</div>
+					<div class="form-row">
+						<label for="reg-email">Email</label>
+						<input id="reg-email" type="text" placeholder="Email" />
+					</div>
+					<div class="form-row">
+						<label for="reg-password">Password</label>
+						<input id="reg-password" type="password" placeholder="Password" />
+					</div>
+					<div class="form-row">
+						<label for="reg-confirm-password">Confirm Password</label>
+						<input id="reg-confirm-password" type="password" placeholder="Password" />
+					</div>
+					<div class="form-row">
+						<button id="sign-up-btn">Sign up</button>
+					</div>
+				</div>
+			</div>
+		</div>
 
-	<div class="container">
-		<header>
-			<h1>Add location</h1>
+		<script type="module" src="./js/register.js"></script>
+	</div>
+	<div class="app-body hide">
+		<div class="notification">
+			<p><small>This demo needs an OpenWeather API key to work. <a target="_blank"
+						href="https://home.openweathermap.org/users/sign_up">Get yours here for free!</a></small></p>
+		</div> <!-- notify -->
 
-			<form id="search-form">
-				<label for="search-term">Search the city or area</label>
+		<div class="container">
+			<header>
+				<h1>Add location</h1>
 
-				<div class="form-row">
-					<input type="text" placeholder="e.g. Barcelona" name="search-term" id="search-term" autofocus>
+				<form id="search-form">
+					<label for="search-term">Search the city or area</label>
 
-					<button type="submit">
-						<img src="./src/img/plus-circle.svg" alt="Plus circle">
-					</button>
-				</div> <!-- form-row -->
+					<div class="form-row">
+						<input type="text" placeholder="e.g. Barcelona" name="search-term" id="search-term" autofocus>
 
-				<p class="form-msg"></p>
-			</form>
-		</header>
+						<button type="submit">
+							<img src="./src/img/plus-circle.svg" alt="Plus circle">
+						</button>
+					</div> <!-- form-row -->
 
-		<section>
-			<ul class="cities">
-			</ul>
-		</section>
-	</div> <!-- container -->
+					<p class="form-msg"></p>
+				</form>
+			</header>
 
-	<script src="./dist/index.js"></script>
+			<section>
+				<ul class="cities">
+				</ul>
+			</section>
+		</div> <!-- container -->
+	</div>
+	<script type="module" src="./dist/index.js"></script>
 </body>
 </html>

@@ -1,6 +1,5 @@
-//import { initializeApp } from 'firebase/app';
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { initializeApp } from "firebase/app";
+import { getFirestore, collection, addDoc, getDocs } from "firebase/firestore/lite";
 
 const firebaseConfig = {
     apiKey: "AIzaSyAEbtRnLMNLxkuX8SbNq2lmnwArU5Ny-2E",
@@ -36,22 +35,43 @@ function changeTab() {
     }
 }
 
-register.addEventListener("click", () => {  
+function onRegisterClick() {
     isRegistering = true;
     changeTab();
-});
+}
 
-login.addEventListener("click", () => { 
+function onLoginClick() {
     isRegistering = false;
     changeTab();
-});
+}
+
+function setLoginPageActive() {
+    document.querySelector(".reg-body").classList.add("active");
+    document.querySelector(".reg-body").classList.remove("hide");
+
+    document.querySelector(".app-body").classList.remove("active");
+    document.querySelector(".app-body").classList.add("hide");
+}
+
+function setAppPageActive() {
+    document.querySelector(".reg-body").classList.add("hide");
+    document.querySelector(".reg-body").classList.remove("active");
+
+    document.querySelector(".app-body").classList.add("active");
+    document.querySelector(".app-body").classList.remove("hide");
+}
+
+register.addEventListener("click", onRegisterClick);
+
+login.addEventListener("click", onLoginClick);
 
 document.querySelector("#sign-up-btn").addEventListener("click", async (e) => {
     e.preventDefault();
 
-    let username = document.getElementById("name").value;
-    let email = document.getElementById("email").value;
-    let password = document.getElementById("password").value;
+    let username = document.getElementById("reg-username").value;
+    let email = document.getElementById("reg-email").value;
+    let password = document.getElementById("reg-password").value;
+    let confirmPassword = document.getElementById("reg-confirm-password").value;
 
     function validateEmail(email) {
         const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -59,29 +79,34 @@ document.querySelector("#sign-up-btn").addEventListener("click", async (e) => {
     }
 
     if (!validateEmail(email)) {
-        document.getElementById('register-error').textContent = 'Please enter a valid Email address';
+        alert('Please enter a valid Email address');
         return;
     }
 
-    if (document.getElementById("password").value.length >= 6) {
-        document.getElementById('emailError').textContent = 'Please enter a valid password longer that 6 symbols';
+    if (password !== confirmPassword) {
+        alert('Passwords do not match');
+        return;
+    }
+
+    if (password.length < 6 || confirmPassword.length < 6) {
+        alert('Please enter a valid password longer that 6 symbols');
         return;
     }
 
     if (await checkUserEmailExists(email)) {
-        document.getElementById('emailError').textContent = 'Account with this email already exists';
+        alert('Account with this email already exists');
         return;
     }
 
     writeUserData(email, password, username);
+    onLoginClick();
 });
 
 document.querySelector("#login-btn").addEventListener("click", async (e) => {
     e.preventDefault();
 
-    let username = document.getElementById("name").value;
-    let email = document.getElementById("email").value;
-    let password = document.getElementById("password").value;
+    let email = document.getElementById("login-email").value;
+    let password = document.getElementById("login-password").value;
 
     function validateEmail(email) {
         const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -89,21 +114,19 @@ document.querySelector("#login-btn").addEventListener("click", async (e) => {
     }
 
     if (!validateEmail(email)) {
-        document.getElementById('register-error').textContent = 'Please enter a valid Email address';
+        alert('Please enter a valid Email address');
         return;
     }
 
-    if (document.getElementById("password").value.length >= 6) {
-        document.getElementById('emailError').textContent = 'Please enter a valid password longer that 6 symbols';
+    if (document.getElementById("login-password").value.length < 6) {
+        alert('Please enter a valid password longer that 6 symbols');
         return;
     }
-
-    if (await checkUserEmailExists(email)) {
-        document.getElementById('emailError').textContent = 'Account with this email already exists';
-        return;
+    const userId = await readUserData(email, password);
+    if (userId === null) {
+        alert(`Logged into account ${userId}`);
+        setAppPageActive();
     }
-
-    writeUserData(email, password, username);
 });
 
 async function writeUserData(email, password, username) {
@@ -123,8 +146,11 @@ async function writeUserData(email, password, username) {
 async function readUserData(email, password) {
     const querySnapshot = await getDocs(collection(database, "users"));
     querySnapshot.forEach((doc) => {
-        console.log(`${doc.id} => ${JSON.stringify(doc.data())}`);
+        if (doc.data() != null && doc.data().email === email && doc.data().password === password) {
+            return doc.id;
+        }  
     });
+    return null;
 }
 
 async function checkUserEmailExists(email) {
