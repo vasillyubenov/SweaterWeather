@@ -5,76 +5,22 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Simple Weather App</title>
+	<title>Sweater Weather</title>
 
-	<!-- Reset -->
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/modern-normalize@1.1.0/modern-normalize.min.css">
 
-	<!-- Google fonts -->
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;700&display=swap" rel="stylesheet">
 
-	<!-- Main stylesheet -->
-	<link rel="stylesheet" href="./src/css/style.css">
+	<link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
-	<div class="reg-body">
-		<div class="form">
-			<div class="head" class="signup">
-				<div data-tab="login" class="login-tab">
-					Login
-				</div>
-				<div data-tab="signup" class="signup-tab">
-					Signup
-				</div>
-			</div>
-			<div class="body" id="form-body">
-				<div class="login">
-					<div class="form-row">
-						<label for="login-email">Email</label>
-						<input id="login-email" type="text" placeholder="Email" />
-					</div>
-					<div class="form-row">
-						<label for="login-password">Password</label>
-						<input id="login-password" type="password" placeholder="Password" />
-					</div>
-					<div class="form-row">
-						<button id="login-btn">Login</button>
-					</div>
-				</div>
-				<div class="signup">
-					<div class="form-row">
-						<label for="reg-username">Username</label>
-						<input id="reg-username" type="text" placeholder="Userame" />
-					</div>
-					<div class="form-row">
-						<label for="reg-email">Email</label>
-						<input id="reg-email" type="text" placeholder="Email" />
-					</div>
-					<div class="form-row">
-						<label for="reg-password">Password</label>
-						<input id="reg-password" type="password" placeholder="Password" />
-					</div>
-					<div class="form-row">
-						<label for="reg-confirm-password">Confirm Password</label>
-						<input id="reg-confirm-password" type="password" placeholder="Password" />
-					</div>
-					<div class="form-row">
-						<button id="sign-up-btn">Sign up</button>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<script type="module" src="./js/register.js"></script>
-	</div>
 	<div class="app-body hide">
 		<div class="notification">
-			<p><small>This demo needs an OpenWeather API key to work. <a target="_blank"
-						href="https://home.openweathermap.org/users/sign_up">Get yours here for free!</a></small></p>
-		</div> <!-- notify -->
+			<p><small>This demo needs an OpenWeather API key to work. <a target="_blank" href="https://home.openweathermap.org/users/sign_up">Get yours here for free!</a></small></p>
+		</div>
 
 		<div class="container">
 			<header>
@@ -89,7 +35,7 @@
 						<button type="submit">
 							<img src="./src/img/plus-circle.svg" alt="Plus circle">
 						</button>
-					</div> <!-- form-row -->
+					</div>
 
 					<p class="form-msg"></p>
 				</form>
@@ -99,8 +45,7 @@
 				<ul class="cities">
 				</ul>
 			</section>
-		</div> <!-- container -->
+		</div>
 	</div>
-	<script type="module" src="./dist/index.js"></script>
 </body>
 </html>
