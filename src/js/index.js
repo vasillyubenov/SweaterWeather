@@ -1,7 +1,17 @@
+import { FirebaseController } from "./firebaseController.js";
+
+const firebaseController = new FirebaseController();
+
 const form = document.querySelector("#search-form");
 const input = document.querySelector("#search-term");
 const msg = document.querySelector(".form-msg");
 const list = document.querySelector(".cities");
+
+const currentUser = localStorage.getItem('currentUser');
+
+if (!currentUser) {
+	window.location.href = "/error";
+}
 
 // Get your OpenWeather API key: https://home.openweathermap.org/users/sign_up
 const apiKey = process.env.API_KEY;
