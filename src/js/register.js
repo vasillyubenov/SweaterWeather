@@ -117,7 +117,7 @@ function onRegister() {
         }
         const userId = await readUserData(email, password);
         if (userId === null) {
-            alert(`Logged into account ${userId}`);
+            //alert(`Logged into account ${userId}`);
             localStorage.setItem('userId', userId);
             window.location.href = '/app';
         }

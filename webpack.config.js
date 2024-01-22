@@ -4,8 +4,13 @@ const express = require('express')
 
 module.exports = {
   entry: ['./src/js/index.js', './src/js/register.js',  './src/js/error.js'],
+  entry: {
+    index: './src/js/index.js',
+    register: './src/js/register.js',
+    error: './src/js/error.js'
+  },
   output: {
-    filename: 'index.js',
+    filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'dist'),
     publicPath: path.resolve(__dirname, 'public'),
   },

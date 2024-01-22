@@ -98,6 +98,12 @@ img {
 	border: 0;
 }
 
+.current-location {
+	text-align: center;
+	color: #000;
+	font: 3rem;
+}
+
 .app-body input[type="text"] {
 	height: 2.75rem;
 	background: var(--p-shade-30) url('../img/search.svg') .75rem center no-repeat;
