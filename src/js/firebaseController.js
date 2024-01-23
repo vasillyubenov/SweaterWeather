@@ -1,8 +1,7 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, addDoc, getDocs } from "firebase/firestore/lite";
+import { getFirestore, collection, addDoc, getDocs, doc } from "firebase/firestore/lite";
 
 class FirebaseController {
-
     constructor() {
         const firebaseConfig = {
             apiKey: process.env.FIREBASE_API_KEY,
@@ -20,14 +19,10 @@ class FirebaseController {
 
     async writeUserData(email, password, username) {
         try {
-            const docRef = await addDoc(collection(database, "users"), {
+            await addDoc(collection(database, "users"), {
                 email,
                 password,
-                username
-            });
-    
-            await addDoc(collection(database, "usersLocations"), {
-                email: email,
+                username,
                 locations: []
             });
         }
@@ -60,22 +55,19 @@ class FirebaseController {
     }
 
     async addLocation(uid, location) {
-        try {
-            //firstly we need to read old locations and if not present add the new one
-            const docRef = await addDoc(collection(database, "users"), {
-                email,
-                password,
-                username
-            });
-    
-            await addDoc(collection(database, "usersLocations"), {
-                email: email,
-                locations: []
-            });
-        }
-        catch (e) {
-            console.error("Error adding document: ", e);
-        }
+        const usersRef = doc(db, "users", uid);
+            const docSnap = await getDoc(usersRef);
+
+            if (docSnap.exists()) {
+                console.log("Document data:", docSnap.data());
+                if (docSnap.data().locations.indexOf(location) == -1) {
+                    await updateDoc(washingtonRef, {
+                        capital: [...docSnap.data().locations, location]
+                    });
+                }
+            } else {
+                console.log("No such document!");
+            }
     }
 }
 
