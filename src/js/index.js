@@ -111,6 +111,15 @@ function callWeatherApi(url, isCurrentLocation = false) {
 			// Add the new markup to the list item
 			li.innerHTML = markup;
 
+
+			// Add latitude and longitude to the list item's dataset
+			li.dataset.lat = data.coord.lat;
+			li.dataset.lon = data.coord.lon;
+
+			// Add click event listener to the list item
+			li.addEventListener('click', handleCityClick);
+
+
 			// Add the new list item to the page
 			list.appendChild(li);
 		})
@@ -123,4 +132,13 @@ function callWeatherApi(url, isCurrentLocation = false) {
 
 	form.reset();
 	input.focus();
+}
+
+function handleCityClick(event) {
+    // Extract latitude and longitude from the clicked list item's dataset
+    const lat = event.currentTarget.dataset.lat;
+    const lon = event.currentTarget.dataset.lon;
+
+    // Redirect to the detail page with the extracted coordinates
+    window.location.href = `/detail?lat=${lat}&lon=${lon}`;
 }

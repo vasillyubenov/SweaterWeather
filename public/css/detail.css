@@ -1,0 +1,122 @@
+:root {
+	--body-font: 'Figtree', sans-serif;
+
+	--p-shade-80: #050B12;
+	--p-shade-50: #0e1b2d;
+	--p-shade-30: #13263e;
+	--p-shade-20: #162b47;
+	--primary: #1b3659;
+	--p-tint-40: #76869b;
+	--p-tint-90: #e8ebee;
+	--secondary: #EFA00B;
+	--tertiary: #03B5AA;
+
+	--global-border-radius: 4px;
+	--global-transition: all .2s ease-in-out;
+}
+
+body {
+    font-family: var(--body-font), 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: var(--primary);
+    /* color: var(--p-tint-90); */
+    color: black;
+    overflow-y: auto; /* Make the entire page scrollable */
+}
+
+.container {
+    text-align: center;
+}
+
+#weatherDetails {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #d2d6dbd7;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    color: var(--p-tint-20);
+    max-width: 1200px; /* Optionally set a max-width for better readability */
+    margin: 0 auto; /* Center the container */
+    border-radius: 8px;
+
+}
+
+#weatherIcon {
+    width: 100px;
+    height: 100px;
+}
+
+.weatherInfo {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+
+.weatherInfo p {
+    margin: 0;
+}
+
+.temperature {
+    font-size: 24px;
+    font-weight: bold;
+    /* color: var(--p-shade-40); */
+}
+
+.description {
+    font-size: 18px;
+    /* color: var(--p-shade-40); */
+    
+}
+
+.forecast {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.dailyForecast {
+    text-align: center;
+    margin: 10px;
+    padding: 10px;
+    /* border: 4px solid var(--p-shade-20); */
+    /* border-radius: var(--global-border-radius); */
+    
+}
+
+.dailyForecast p {
+    margin: 0;
+}
+
+.dailyForecastHead {
+    justify-content: space-between;
+    margin-bottom: 10px;
+    border-bottom: 4px solid black;
+    font-size: 1.2em; 
+    font-weight: bold;
+    padding-bottom: 5px;
+    text-transform: uppercase;
+}
+
+.hourlyForecast {
+    color: var(--p-tint-90);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin-top: 10px;
+}
+
+.hourlyForecast div {
+    text-align: center;
+    margin: 5px;
+    padding: 5px;
+    background-color: var(--p-shade-20);
+    border-radius: 8px;
+}
+
+.hourlyForecast p {
+    margin: 0;
+}

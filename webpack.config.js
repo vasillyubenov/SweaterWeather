@@ -3,9 +3,10 @@ var Dotenv = require('dotenv-webpack')
 const express = require('express')
 
 module.exports = {
-  entry: ['./src/js/index.js', './src/js/register.js',  './src/js/error.js'],
+  entry: ['./src/js/index.js', './src/js/register.js', `./src/js/detail.js`,  './src/js/error.js'],
   entry: {
     index: './src/js/index.js',
+    detail: './src/js/detail.js',
     register: './src/js/register.js',
     error: './src/js/error.js'
   },
@@ -33,6 +34,11 @@ module.exports = {
       app.get('/app', function(req, res) {
         res.sendFile(path.join(__dirname + '/index.html'));
       });
+
+      app.get('/detail', function(req, res) {
+        res.sendFile(path.join(__dirname + '/detail.html'));
+      });
+
 
       app.get('/', function(req, res) {
         res.sendFile(path.join(__dirname + '/src/register.html'));
