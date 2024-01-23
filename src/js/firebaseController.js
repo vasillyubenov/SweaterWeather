@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, addDoc, getDocs, doc } from "firebase/firestore/lite";
 
-class FirebaseController {
+export class FirebaseController {
     constructor() {
         const firebaseConfig = {
             apiKey: process.env.FIREBASE_API_KEY,
@@ -14,12 +14,12 @@ class FirebaseController {
 
         // Initialize Firebase
         this.app = initializeApp(firebaseConfig);
-        this.database = getFirestore(app);
+        this.database = getFirestore(this.app);
     }
 
     async writeUserData(email, password, username) {
         try {
-            await addDoc(collection(database, "users"), {
+            await addDoc(collection(this.database, "users"), {
                 email,
                 password,
                 username,
@@ -32,17 +32,20 @@ class FirebaseController {
     }
     
     async readUserData(email, password) {
-        const querySnapshot = await getDocs(collection(database, "users"));
+        const querySnapshot = await getDocs(collection(this.database, "users"));
+        let docId = null;
+
         querySnapshot.forEach((doc) => {
             if (doc.data() != null && doc.data().email === email && doc.data().password === password) {
-                return doc.id;
+                docId = doc.id;
             }
         });
-        return null;
+        
+        return docId;
     }
     
     async checkUserEmailExists(email) {
-        const querySnapshot = await getDocs(collection(database, "users"));
+        const querySnapshot = await getDocs(collection(this.database, "users"));
         let userExists = false;
         for (const doc of querySnapshot.docs) {
             const data = doc.data();
@@ -55,7 +58,7 @@ class FirebaseController {
     }
 
     async addLocation(uid, location) {
-        const usersRef = doc(db, "users", uid);
+        const usersRef = doc(this.database, "users", uid);
             const docSnap = await getDoc(usersRef);
 
             if (docSnap.exists()) {
@@ -70,5 +73,3 @@ class FirebaseController {
             }
     }
 }
-
-export default FirebaseController;

@@ -1,4 +1,4 @@
-import { FirebaseController } from "./firebaseController.js";
+import { FirebaseController } from './firebaseController.js';
 
 const firebaseController = new FirebaseController();
 
@@ -13,7 +13,6 @@ if (!currentUser) {
 	window.location.href = "/error";
 }
 
-// Get your OpenWeather API key: https://home.openweathermap.org/users/sign_up
 const apiKey = process.env.API_KEY;
 
 form.addEventListener('submit', e => {
@@ -98,6 +97,8 @@ function callWeatherApi(url, isCurrentLocation = false) {
 
 			// Let's destructure the data object
 			const { main, name, sys, weather } = data;
+			
+			firebaseController.addLocalLocation(currentUser, name);
 
 			// Define the icon location
 			const icon = `../img/weather/${weather[0]['icon']}.svg`;

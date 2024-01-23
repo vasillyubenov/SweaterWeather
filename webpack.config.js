@@ -3,8 +3,8 @@ var Dotenv = require('dotenv-webpack')
 const express = require('express')
 
 module.exports = {
-  entry: ['./src/js/index.js', './src/js/register.js',  './src/js/error.js'],
   entry: {
+    firebaseController: './src/js/firebaseController.js',
     index: './src/js/index.js',
     register: './src/js/register.js',
     error: './src/js/error.js'

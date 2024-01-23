@@ -1,4 +1,4 @@
-import { FirebaseController } from "./firebaseController.js";
+import { FirebaseController } from './firebaseController.js';
 
 const firebaseController = new FirebaseController();
 
@@ -90,6 +90,7 @@ document.querySelector("#login-btn").addEventListener("click", async (e) => {
         alert('Please enter a valid password longer that 6 symbols');
         return;
     }
+    
     const docId = await firebaseController.readUserData(email, password);
     if (docId) {
         localStorage.setItem('currentUser', docId);
