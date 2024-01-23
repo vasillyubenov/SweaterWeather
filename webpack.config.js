@@ -6,6 +6,7 @@ module.exports = {
   entry: {
     firebaseController: './src/js/firebaseController.js',
     index: './src/js/index.js',
+    detail: './src/js/detail.js',
     register: './src/js/register.js',
     error: './src/js/error.js'
   },
@@ -33,6 +34,11 @@ module.exports = {
       app.get('/app', function(req, res) {
         res.sendFile(path.join(__dirname + '/index.html'));
       });
+
+      app.get('/detail', function(req, res) {
+        res.sendFile(path.join(__dirname + '/detail.html'));
+      });
+
 
       app.get('/', function(req, res) {
         res.sendFile(path.join(__dirname + '/src/register.html'));
