@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, addDoc, getDocs, doc } from "firebase/firestore/lite";
+import { getFirestore, collection, addDoc, getDocs, getDoc, updateDoc, doc } from "firebase/firestore/lite";
 
 export class FirebaseController {
     constructor() {
@@ -30,7 +30,7 @@ export class FirebaseController {
             console.error("Error adding document: ", e);
         }
     }
-    
+
     async readUserData(email, password) {
         const querySnapshot = await getDocs(collection(this.database, "users"));
         let docId = null;
@@ -40,10 +40,10 @@ export class FirebaseController {
                 docId = doc.id;
             }
         });
-        
+
         return docId;
     }
-    
+
     async checkUserEmailExists(email) {
         const querySnapshot = await getDocs(collection(this.database, "users"));
         let userExists = false;
@@ -59,17 +59,45 @@ export class FirebaseController {
 
     async addLocation(uid, location) {
         const usersRef = doc(this.database, "users", uid);
-            const docSnap = await getDoc(usersRef);
+        const docSnap = await getDoc(usersRef);
 
-            if (docSnap.exists()) {
-                console.log("Document data:", docSnap.data());
-                if (docSnap.data().locations.indexOf(location) == -1) {
-                    await updateDoc(washingtonRef, {
-                        capital: [...docSnap.data().locations, location]
-                    });
-                }
-            } else {
-                console.log("No such document!");
+        if (docSnap.exists()) {
+            if (docSnap.data().locations.indexOf(location) == -1) {
+                await updateDoc(usersRef, {
+                    locations: [...docSnap.data().locations, location]
+                });
             }
+        }
+    }
+
+    async removeLocation(uid, location, errorCallback) {
+        const usersRef = doc(this.database, "users", uid);
+        const docSnap = await getDoc(usersRef);
+
+        if (docSnap.exists()) {
+            const locationIndex = docSnap.data().locations.indexOf(location);
+            if (locationIndex != -1) {
+                let locs = docSnap.data().locations;
+                locs.splice(locationIndex, 1);
+
+                await updateDoc(usersRef, {
+                    locations: locs
+                });
+            }
+            errorCallback("No such city!");
+        }
+
+        errorCallback("User doesn't exist!");
+    }
+
+    async getLocations(uid) {
+        const usersRef = doc(this.database, "users", uid);
+        const docSnap = await getDoc(usersRef);
+
+        if (docSnap.exists()) {
+            return docSnap.data().locations;
+        }
+
+        return null;
     }
 }

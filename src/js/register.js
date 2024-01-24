@@ -4,6 +4,7 @@ const firebaseController = new FirebaseController();
 
 let register = document.querySelector(".signup-tab");
 let login = document.querySelector(".login-tab");
+let isRegistering = false;
 
 function changeTab() {
     try {

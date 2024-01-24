@@ -70,7 +70,8 @@ form.addEventListener('submit', e => {
 	callWeatherApi(url);
 });
 
-getLocation();
+// getLocation();
+showLocations();
 
 function getLocation() {
 	if (navigator.geolocation) {
@@ -82,8 +83,21 @@ function getLocation() {
 }
 
 function showPosition(position) {
-	url = `https://api.openweathermap.org/data/2.5/weather?lat=${position.coords.latitude}&lon=${position.coords.longitude}&units=metric&appid=${apiKey}`;
+	const url = `https://api.openweathermap.org/data/2.5/weather?lat=${position.coords.latitude}&lon=${position.coords.longitude}&units=metric&appid=${apiKey}`;
 	callWeatherApi(url, true);
+}
+
+async function showLocations(locations) {
+	//Clear the list and load only ones from backend
+	list.innerHTML = "";
+	locations = await firebaseController.getLocations(currentUser);
+
+	if (locations != null) {
+		for (const location of locations) {
+			const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${apiKey}&units=metric`;
+			callWeatherApi(url);
+		}
+	}
 }
 
 function callWeatherApi(url, isCurrentLocation = false) {
@@ -97,31 +111,33 @@ function callWeatherApi(url, isCurrentLocation = false) {
 
 			// Let's destructure the data object
 			const { main, name, sys, weather } = data;
-			
-			firebaseController.addLocalLocation(currentUser, name);
+
+			firebaseController.addLocation(currentUser, name);
 
 			// Define the icon location
 			const icon = `../img/weather/${weather[0]['icon']}.svg`;
 
 			// Create the list item for the new city
 			const li = document.createElement('li');
+			const removeButton = document.createElement('div');
+			removeButton.innerHTML = "X";
+			removeButton.addEventListener('click', (event) => { event.stopImmediatePropagation(); handleRemoveCity(name) });
+			removeButton.classList.add('remove-btn');
 
 			// Define markup
 			const markup = (isCurrentLocation ? `<p class="current-location">Current Location</p>` : "") + `
 				<figure>
 					<img src="${icon}" alt="${weather[0]['description']}">
 				</figure>
-
 				<div>
 					<h2>${Math.round(main.temp)}<sup>°C</sup></h2>
 					<p class="city__conditions">${weather[0]['description'].toUpperCase()}</p>
 					<h3><span class="city__name">${name}</span><span class="city__country">${sys.country}</span></h3>
 				</div>
 			`;
-
 			// Add the new markup to the list item
 			li.innerHTML = markup;
-
+			li.appendChild(removeButton);
 
 			// Add latitude and longitude to the list item's dataset
 			li.dataset.lat = data.coord.lat;
@@ -145,11 +161,23 @@ function callWeatherApi(url, isCurrentLocation = false) {
 	input.focus();
 }
 
-function handleCityClick(event) {
-    // Extract latitude and longitude from the clicked list item's dataset
-    const lat = event.currentTarget.dataset.lat;
-    const lon = event.currentTarget.dataset.lon;
+async function handleRemoveCity(name) {
+	await firebaseController.removeLocation(currentUser, name, showToast);
+	showLocations();
+}
 
-    // Redirect to the detail page with the extracted coordinates
-    window.location.href = `/detail?lat=${lat}&lon=${lon}`;
+function handleCityClick(event) {
+	// Extract latitude and longitude from the clicked list item's dataset
+	const lat = event.currentTarget.dataset.lat;
+	const lon = event.currentTarget.dataset.lon;
+
+	// Redirect to the detail page with the extracted coordinates
+	window.location.href = `/detail?lat=${lat}&lon=${lon}`;
+}
+
+function showToast(text) {
+	var toast = document.getElementById("snackbar");
+	toast.innerHTML = text;
+	toast.className = "show";
+	setTimeout(function () { toast.className = toast.className.replace("show", ""); }, 3000);
 }
