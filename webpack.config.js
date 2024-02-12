@@ -5,10 +5,12 @@ const express = require('express')
 module.exports = {
   entry: {
     firebaseController: './src/js/firebaseController.js',
+    googleMapsController: './src/js/googleMapsController.js',
     index: './src/js/index.js',
     detail: './src/js/detail.js',
     register: './src/js/register.js',
-    error: './src/js/error.js'
+    error: './src/js/error.js',
+    commutes: './src/js/commutes.js'
   },
   output: {
     filename: '[name].bundle.js',
@@ -26,7 +28,6 @@ module.exports = {
     noInfo: true,
     setup(app){
       app.use(express.static('public'));
-
       app.get('/error', function(req, res) {
         res.sendFile(path.join(__dirname + '/src/error.html'));
       });
@@ -39,10 +40,16 @@ module.exports = {
         res.sendFile(path.join(__dirname + '/detail.html'));
       });
 
+      app.get('/alarm', function(req, res) {
+        res.sendFile(path.join(__dirname + '/src/alarm.html'));
+      });
 
       app.get('/', function(req, res) {
+        const ipAddress = req.connection.remoteAddress;
+        console.log(req.ip);
         res.sendFile(path.join(__dirname + '/src/register.html'));
       });
+
     }
   },
 }
