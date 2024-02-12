@@ -5,7 +5,6 @@ document.addEventListener("DOMContentLoaded", function () {
   const city1 = urlParams.get("t1");
   const city2 = urlParams.get("t2");
   
-  // const apiUrl1 = `https://api.openweathermap.org/data/2.5/weather?lat=${lat1}&lon=${lon1}&appid=${apiKey}`;
   const apiUrl1 = `https://api.openweathermap.org/data/2.5/weather?q=${city1}&appid=${apiKey}`;
   fetch(apiUrl1)
     .then((response) => response.json())
@@ -16,7 +15,6 @@ document.addEventListener("DOMContentLoaded", function () {
       console.error("Error fetching weather data:", error);
     });
 
-  // const apiUrl2 = `https://api.openweathermap.org/data/2.5/weather?lat=${lat2}&lon=${lon2}&appid=${apiKey}`;
   const apiUrl2 = `https://api.openweathermap.org/data/2.5/weather?q=${city2}&appid=${apiKey}`;
   fetch(apiUrl2)
     .then((response) => response.json())
@@ -38,7 +36,7 @@ function displayWeatherDetails(weatherData, element) {
   const weatherIcon = `http://openweathermap.org/img/wn/${weatherData.weather[0].icon}.png`;
 
   weatherDetailsContainer.innerHTML = `        
-    <div class="weatherPanel>
+    <div class="weatherPanel">
         <h2>${cityName}</h2>
         <div class="weatherInfo">
             <img id="weatherIcon" src="${weatherIcon}" alt="Weather Icon">
