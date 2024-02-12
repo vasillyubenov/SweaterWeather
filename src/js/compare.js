@@ -2,15 +2,26 @@ const apiKey = process.env.API_KEY;
 
 document.addEventListener("DOMContentLoaded", function () {
   const urlParams = new URLSearchParams(window.location.search);
-  const lat1 = urlParams.get("lat");
-  const lon1 = urlParams.get("lon");
-
-  const apiUrl1 = `https://api.openweathermap.org/data/2.5/weather?lat=${lat1}&lon=${lon1}&appid=${apiKey}`;
-
+  const city1 = urlParams.get("t1");
+  const city2 = urlParams.get("t2");
+  
+  // const apiUrl1 = `https://api.openweathermap.org/data/2.5/weather?lat=${lat1}&lon=${lon1}&appid=${apiKey}`;
+  const apiUrl1 = `https://api.openweathermap.org/data/2.5/weather?q=${city1}&appid=${apiKey}`;
   fetch(apiUrl1)
     .then((response) => response.json())
     .then((data) => {
-      displayWeatherDetails(data, "weatherDetails");
+      displayWeatherDetails(data, "weatherDetailsLeft");
+    })
+    .catch((error) => {
+      console.error("Error fetching weather data:", error);
+    });
+
+  // const apiUrl2 = `https://api.openweathermap.org/data/2.5/weather?lat=${lat2}&lon=${lon2}&appid=${apiKey}`;
+  const apiUrl2 = `https://api.openweathermap.org/data/2.5/weather?q=${city2}&appid=${apiKey}`;
+  fetch(apiUrl2)
+    .then((response) => response.json())
+    .then((data) => {
+      displayWeatherDetails(data, "weatherDetailsRight");
     })
     .catch((error) => {
       console.error("Error fetching weather data:", error);
@@ -18,9 +29,10 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function displayWeatherDetails(weatherData, element) {
+  const cityName = weatherData.name;
+
   const weatherDetailsContainer = document.getElementById(element);
 
-  const cityName = weatherData.name;
   const temperature = Math.round(weatherData.main.temp - 273.15); // Convert temperature to Celsius
   const weatherDescription = weatherData.weather[0].description;
   const weatherIcon = `http://openweathermap.org/img/wn/${weatherData.weather[0].icon}.png`;

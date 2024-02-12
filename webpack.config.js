@@ -8,6 +8,7 @@ module.exports = {
     googleMapsController: './src/js/googleMapsController.js',
     index: './src/js/index.js',
     detail: './src/js/detail.js',
+    compare: './src/js/compare.js',
     register: './src/js/register.js',
     error: './src/js/error.js',
     commutes: './src/js/commutes.js'
@@ -43,6 +44,11 @@ module.exports = {
       app.get('/alarm', function(req, res) {
         res.sendFile(path.join(__dirname + '/src/alarm.html'));
       });
+      
+      app.get('/compare', function(req, res) {
+        res.sendFile(path.join(__dirname + '/compare.html'));
+      });
+
 
       app.get('/', function(req, res) {
         const ipAddress = req.connection.remoteAddress;

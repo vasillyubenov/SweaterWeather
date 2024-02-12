@@ -1,49 +1,97 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sweater Weather</title>
 
-<head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Sweater Weather</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/modern-normalize@1.1.0/modern-normalize.min.css"
+    />
 
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/modern-normalize@1.1.0/modern-normalize.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
 
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
 
-	<link rel="stylesheet" href="css/style.css">
-</head>
+  <body>
+    <div
+      class="app-body hide"
+      style="display: flex; justify-content: space-between"
+    >
+      <div class="container" style="flex: 1">
+        <header>
+          <h1>Add location</h1>
 
-<body>
-	<div class="app-body hide">
-		<div class="container">
-			<header>
-				<h1>Add location</h1>
+          <form id="search-form">
+            <label for="search-term">Search the city or area</label>
 
-				<form id="search-form">
-					<label for="search-term">Search the city or area</label>
+            <div class="form-row">
+              <input
+                type="text"
+                placeholder="e.g. Barcelona"
+                name="search-term"
+                id="search-term"
+                autofocus
+              />
 
-					<div class="form-row">
-						<input type="text" placeholder="e.g. Barcelona" name="search-term" id="search-term" autofocus>
+              <button type="submit">
+                <img src="img/plus-circle.svg" alt="Plus circle" />
+              </button>
+            </div>
 
-						<button type="submit">
-							<img src="img/plus-circle.svg" alt="Plus circle">
-						</button>
-					</div>
+            <p class="form-msg"></p>
+          </form>
+        </header>
+      </div>
 
-					<p class="form-msg"></p>
-				</form>
-			</header>
+      <div class="container" style="flex: 1">
+        <header>
+          <h1>Compare 2 locations</h1>
 
-			<section>
-				<ul class="cities">
-				</ul>
-			</section>
-		</div>
-	</div>
-	<div id="snackbar">Error</div>
-	<script src="./dist/index.bundle.js"></script>
-</body>
+          <form id="compare-form">
+            <label for="compare-term">Enter cities to compare</label>
+
+            <div class="form-row">
+              <input
+                type="text"
+                placeholder="e.g. Barcelona"
+                id="left"
+                autofocus
+              />
+              <input
+                type="text"
+                placeholder="e.g. Munich"
+                id="right"
+                autofocus
+              />
+
+              <button type="submit">
+                <img src="img/plus-circle.svg" alt="Plus circle" />
+              </button>
+            </div>
+
+            <p class="form-msg"></p>
+          </form>
+        </header>
+      </div>
+    </div>
+
+    <div class="app-body hide">
+      <div class="container">
+        <section>
+          <ul class="cities"></ul>
+        </section>
+      </div>
+    </div>
+    <div id="snackbar">Error</div>
+    <script src="./dist/index.bundle.js"></script>
+  </body>
 </html>
