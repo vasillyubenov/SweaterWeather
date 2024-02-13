@@ -1,4 +1,4 @@
-export default condtions = {
+const weatherConditions = {
     "thunderstorm with light rain": 20,
     "thunderstorm with rain": 25,
     "thunderstorm with heavy rain": 30,
@@ -49,4 +49,6 @@ export default condtions = {
     "volcanic ash": 30,
     "squalls": 25,
     "tornado": 50
-};  
+};
+
+export default weatherConditions;

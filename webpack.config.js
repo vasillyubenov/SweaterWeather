@@ -11,6 +11,7 @@ module.exports = {
     compare: './src/js/compare.js',
     register: './src/js/register.js',
     error: './src/js/error.js',
+    weatherConditions: './src/js/weatherConditions.js',
     commutes: './src/js/commutes.js'
   },
   output: {
@@ -49,13 +50,9 @@ module.exports = {
         res.sendFile(path.join(__dirname + '/compare.html'));
       });
 
-
       app.get('/', function(req, res) {
-        const ipAddress = req.connection.remoteAddress;
-        console.log(req.ip);
         res.sendFile(path.join(__dirname + '/src/register.html'));
       });
-
     }
   },
 }

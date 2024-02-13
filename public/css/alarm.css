@@ -1,87 +1,187 @@
-/* 
- * Always set the map height explicitly to define the size of the div element
- * that contains the map. 
- */
- #map {
-    height: 100%;
-  }
-  
-  /* 
-   * Optional: Makes the sample page fill the window. 
-   */
-  html,
-  body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-  }
-  
-  #description {
-    font-family: Roboto;
-    font-size: 15px;
-    font-weight: 300;
-  }
-  
-  #infowindow-content .title {
-    font-weight: bold;
-  }
-  
-  #infowindow-content {
-    display: none;
-  }
-  
-  #map #infowindow-content {
-    display: inline;
-  }
-  
-  .pac-card {
-    background-color: #fff;
-    border: 0;
-    border-radius: 2px;
-    box-shadow: 0 1px 4px -1px rgba(0, 0, 0, 0.3);
-    margin: 10px;
-    padding: 0 0.5em;
-    font: 400 18px Roboto, Arial, sans-serif;
-    overflow: hidden;
-    font-family: Roboto;
-    padding: 0;
-  }
-  
-  #pac-container {
-    padding-bottom: 12px;
-    margin-right: 12px;
-  }
-  
-  .pac-controls {
-    display: inline-block;
-    padding: 5px 11px;
-  }
-  
-  .pac-controls label {
-    font-family: Roboto;
-    font-size: 13px;
-    font-weight: 300;
-  }
-  
-  #pac-input {
-    background-color: #fff;
-    font-family: Roboto;
-    font-size: 15px;
-    font-weight: 300;
-    margin-left: 12px;
-    padding: 0 11px 0 13px;
-    text-overflow: ellipsis;
-    width: 400px;
-  }
-  
-  #pac-input:focus {
-    border-color: #4d90fe;
-  }
-  
-  #title {
-    color: #fff;
-    background-color: #4d90fe;
-    font-size: 25px;
-    font-weight: 500;
-    padding: 6px 12px;
-  }
+:root {
+
+  --p-shade-80: #050B12;
+  --p-shade-50: #0e1b2d;
+  --p-shade-30: #13263e;
+  --p-shade-20: #162b47;
+  --primary: #1b3659;
+  --p-tint-40: #76869b;
+  --p-tint-90: #e8ebee;
+  --secondary: #EFA00B;
+  --tertiary: #03B5AA;
+
+  --global-border-radius: 4px;
+  --global-transition: all .2s ease-in-out;
+}
+
+#map {
+  height: 100%;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+#description {
+  font-family: Roboto;
+  font-size: 15px;
+  font-weight: 300;
+}
+
+#infowindow-content .title {
+  font-weight: bold;
+}
+
+#infowindow-content {
+  display: none;
+}
+
+#map #infowindow-content {
+  display: inline;
+}
+
+.pac-card {
+  background-color: #fff;
+  border: 0;
+  border-radius: 2px;
+  box-shadow: 0 1px 4px -1px rgba(0, 0, 0, 0.3);
+  margin: 10px;
+  padding: 0 0.5em;
+  font: 400 18px Roboto, Arial, sans-serif;
+  overflow: hidden;
+  font-family: Roboto;
+  padding: 0;
+  width: 25%;
+  height: 30%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 20pxs;
+}
+
+#pac-container {
+  padding-bottom: 12px;
+  margin-right: 12px;
+  margin-left: 12px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+#pac-container > * {
+  flex: 1;
+}
+
+.pac-controls {
+  display: inline-block;
+  padding: 5px 11px;
+}
+
+.pac-controls label {
+  font-family: Roboto;
+  font-size: 13px;
+  font-weight: 300;
+}
+
+#pac-input {
+  background-color: #fff;
+  font-family: Roboto;
+  font-size: 15px;
+  font-weight: 300;
+  margin-left: 12px;
+  padding: 0 11px 0 13px;
+  text-overflow: ellipsis;
+  width: 400px;
+}
+
+#pac-input:focus {
+  border-color: #4d90fe;
+}
+
+#title {
+  color: #fff;
+  background-color: #4d90fe;
+  font-size: 25px;
+  font-weight: 500;
+  padding: 6px 12px;
+}
+
+input[type="submit"] {
+  color: #fff;
+  height: 2.75rem;
+  background-color: var(--secondary);
+  border: none;
+  border-radius: var(--global-border-radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--global-transition);
+  cursor: pointer;
+  width: 100%;
+}
+
+input[type="text"], #time-input {
+	height: 2.75rem;
+	background: var(--p-shade-30) url('../img/search.svg') .75rem center no-repeat;
+	color: var(--p-tint-90);
+	padding-left: 2.25rem;
+	width: 100%;
+	outline: none;
+	transition: var(--global-transition);
+  /* Make text; */
+  text-overflow: ellipsis;
+}
+#time-input::-webkit-calendar-picker-indicator  {
+  filter: invert(100%) sepia(0%) saturate(1866%) hue-rotate(199deg) brightness(103%) contrast(113%);
+}
+
+#time-input {
+  height: 2.75rem;
+	background: var(--p-shade-30) .75rem center no-repeat;
+	color: var(--p-tint-90);
+	padding-left: 2.25rem;
+	width: 100%;
+	outline: none;
+	transition: var(--global-transition);
+  text-overflow: ellipsis;
+}
+
+input::placeholder {
+	color: var(--p-tint-40);
+} 
+input:focus, input:hover {
+	background-color: var(--p-shade-50);
+}
+
+.time-wrapper {
+  padding-top: 20px;
+  justify-content: center;
+  height: 130px;
+  display: flex;
+  gap: 20px;
+  flex-direction: column;
+  margin-left: 20px;
+}
+
+.suggested-wakeup {
+  position: absolute;
+  bottom: 20px;
+}
+
+#suggested-time {
+  text-align: center;
+}
+
+.alarm-util {
+  text-align: center;
+  position: absolute;
+  top: 20px;
+}

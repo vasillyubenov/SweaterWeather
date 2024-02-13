@@ -44,8 +44,22 @@
         </div>
       </div>
       <div id="pac-container">
-        <input id="origin-input" type="text" placeholder="Enter a origin" value="Sofia, Bulgaria"/> <br />
-        <input id="destination-input" type="text" placeholder="Enter a destination" value="Montana, Bulgaria" />
+        <div class="alarm-util">
+          Alarm Utility
+        </div>
+        <div>
+          <label for="origin-input">Origin:</label> <br />
+          <input id="origin-input" type="text" placeholder="Enter a origin" value="Sofia, Bulgaria"/> <br />
+          <label for="origin-input">Destination:</label> <br />
+          <input id="destination-input" type="text" placeholder="Enter a destination" value="Montana, Bulgaria" />
+        </div>
+        <div class="time-wrapper">
+          <input id="time-input" type="time" value="08:00">
+          <input id="change-alarm" type="submit" value="Change Alarm"/>
+        </div>
+        <div class="suggested-wakeup">
+          <span id="suggested-time">Suggested wake up time: 08:00 AM</span>
+        </div>
       </div>
     </div>
     <div id="map"></div>
@@ -53,17 +67,6 @@
       <span id="place-name" class="title"></span><br />
       <span id="place-address"></span>
     </div>
-
-    <!-- 
-      The `defer` attribute causes the callback to execute after the full HTML
-      document has been parsed. For non-blocking uses, avoiding race conditions,
-      and consistent behavior across browsers, consider loading using Promises.
-      See https://developers.google.com/maps/documentation/javascript/load-maps-js-api
-      for more information.
-    -->
-    <script>
-        console.log(process.env)
-    </script>
     <script
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBrwvW3wZfiyiAzqzt89KCGlZrYc6m9eXQ&callback=initMap&libraries=places&v=weekly"
       defer

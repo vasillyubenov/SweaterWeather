@@ -3,15 +3,8 @@
 // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places"
 import { GoogleMapsController } from './googleMapsController.js';
 
-let origin = {
-  lng: -20,
-  lat: -20
-}
-
-let destination = {
-  lng: -20,
-  lat: -20
-}
+let originCoordinates = null;
+let destinationCoordinates = null;
 
 function initMap() {
   const map = new google.maps.Map(document.getElementById("map"), {
@@ -24,6 +17,10 @@ function initMap() {
   const destination = document.getElementById("destination-input");
   const biasInputElement = document.getElementById("use-location-bias");
   const strictBoundsInputElement = document.getElementById("use-strict-bounds");
+  const changeAlarm = document.getElementById("change-alarm");
+
+  changeAlarm.addEventListener("click", addAlarm);
+
   const options = {
     fields: ["formatted_address", "geometry", "name"],
     strictBounds: false,
@@ -63,8 +60,10 @@ function initMap() {
       return;
     }
 
-    origin.lng = place.geometry.location.lng();
-    origin.lat = place.geometry.location.lat();
+    originCoordinates = {
+      lng: place.geometry.location.lng(),
+      lat: place.geometry.location.lat()
+    };
 
     // If the place has a geometry, then present it on a map.
     if (place.geometry.viewport) {
@@ -87,7 +86,7 @@ function initMap() {
     marker.setVisible(false);
 
     const place = autocompleteDestination.getPlace();
-    
+
     if (!place.geometry || !place.geometry.location) {
       // User entered the name of a Place that was not suggested and
       // pressed the Enter key, or the Place Details request failed.
@@ -95,13 +94,10 @@ function initMap() {
       return;
     }
 
-    destination.lng = place.geometry.location.lng();
-    destination.lat = place.geometry.location.lat();
-
-    //let controller = new GoogleMapsController(process.env.GOOGLEMAPS_API_KEY);
-    //console.log(controller.getDuration(origin, destination));
-    let mapsController = new GoogleMapsController();
-    mapsController.getDuration(origin, destination);
+    destinationCoordinates = {
+      lng: place.geometry.location.lng(),
+      lat: place.geometry.location.lat()
+    };
 
     // If the place has a geometry, then present it on a map.
     if (place.geometry.viewport) {
@@ -162,6 +158,23 @@ function initMap() {
 
     originInput.value = "";
   });
+}
+
+function addAlarm(event) {
+  event.preventDefault();
+
+  if (originCoordinates == null) {
+    alert("Please enter origin");
+    return;
+  }
+
+  if (destinationCoordinates == null) {
+    alert("Please enter destination");
+    return;
+  }
+
+  let mapsController = new GoogleMapsController();
+  mapsController.getDuration(originCoordinates, destinationCoordinates);
 }
 
 window.initMap = initMap;
