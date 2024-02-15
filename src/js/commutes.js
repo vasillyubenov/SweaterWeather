@@ -5,6 +5,7 @@ import { GoogleMapsController } from './googleMapsController.js';
 
 let originCoordinates = null;
 let destinationCoordinates = null;
+let alarmTimeInput = null;
 
 function initMap() {
   const map = new google.maps.Map(document.getElementById("map"), {
@@ -18,6 +19,7 @@ function initMap() {
   const biasInputElement = document.getElementById("use-location-bias");
   const strictBoundsInputElement = document.getElementById("use-strict-bounds");
   const changeAlarm = document.getElementById("change-alarm");
+  alarmTimeInput = document.getElementById("time-input");
 
   changeAlarm.addEventListener("click", addAlarm);
 
@@ -173,8 +175,13 @@ function addAlarm(event) {
     return;
   }
 
+  if (alarmTimeInput == null || alarmTimeInput.value == "") {
+    alert("Please enter time");
+    return;
+  }
+
   let mapsController = new GoogleMapsController();
-  mapsController.getDuration(originCoordinates, destinationCoordinates);
+  mapsController.getDuration(originCoordinates, destinationCoordinates, alarmTimeInput.value);
 }
 
 window.initMap = initMap;

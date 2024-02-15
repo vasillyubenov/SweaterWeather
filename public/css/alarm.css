@@ -157,7 +157,7 @@ input[type="text"], #time-input {
 input::placeholder {
 	color: var(--p-tint-40);
 } 
-input:focus, input:hover {
+input:hover {
 	background-color: var(--p-shade-50);
 }
 
