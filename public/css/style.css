@@ -22,22 +22,15 @@ html {
 	font-size: 16px;
 }
 
+body {
+	height: 100%;
+}
+
 .app-body {
 	font-family: var(--body-font);
 	background-color: var(--primary);
 	color: var(--p-tint-90);
 }
-
-/* .remove-btn {
-	background-color: rgb(182, 43, 43);
-	border: none;
-	color: var(--p-tint-90);
-	cursor: pointer;
-	font-size: 1.5rem;
-	position: relative;
-	top: 10px;
-	right: 10px;
-} */
 
 /* Remove Button */
 
@@ -53,7 +46,9 @@ html {
 	background-color: rgb(182, 43, 43);
 	border: 2px solid rgb(128, 22, 22);
 	color: #ffffff;
-	position: relative;
+	position: absolute;
+	top: 10px;
+	right: 10px;
 }
 
 .remove-btn:hover {
@@ -62,29 +57,7 @@ html {
 	color: #ffffff;
 }
 
-/* .remove-btn::before {
-	content: " ";
-	position: absolute;
-	display: block;
-	background-color: rgb(182, 43, 43);
-	width: 2px;
-	left: 12px;
-	top: 5px;
-	bottom: 5px;
-	transform: rotate(45deg);
-} */
-
-/* .remove-btn::after {
-	content: " ";
-	position: absolute;
-	display: block;
-	background-color: rgb(182, 43, 43);
-	height: 2px;
-	top: 12px;
-	left: 5px;
-	right: 5px;
-	transform: rotate(45deg);
-} */
+/* Remove BTN end */
 
 figure {
 	margin: 0;
@@ -262,6 +235,7 @@ img {
 	color: var(--p-shade-80);
 	border-radius: var(--global-border-radius);
 	box-shadow: 8px 8px 0px rgba(255, 255, 255, 0.08);
+	position: relative;
 }
 
 .app-body .city__conditions {
@@ -300,6 +274,27 @@ img {
 	.app-body.container {
 		padding: 4rem;
 	}
+}
+
+img.svg-colored {
+	filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(45deg) brightness(102%) contrast(104%);
+}
+
+#alarm-utility {
+	height: 2.75rem;
+	width: 100px;
+	background-color: var(--secondary);
+	border: none;
+	border-radius: var(--global-border-radius);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: var(--global-transition);
+	cursor: pointer;
+	color: #fff;
+	position: absolute;
+	top: 20px;
+	right: 20px;
 }
 
 /* Toast */

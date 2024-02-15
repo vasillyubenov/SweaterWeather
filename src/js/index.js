@@ -5,6 +5,7 @@ const firebaseController = new FirebaseController();
 const searchForm = document.querySelector("#search-form");
 const compareForm = document.querySelector("#compare-form");
 const input = document.querySelector("#search-term");
+const alarm = document.querySelector("#alarm-utility");
 const msg = document.querySelector(".form-msg");
 const list = document.querySelector(".cities");
 
@@ -15,6 +16,8 @@ if (!currentUser) {
 }
 
 const apiKey = process.env.API_KEY;
+
+alarm.addEventListener("click", handleAlarmUtilityClick);
 
 searchForm.addEventListener("submit", (e) => {
   // Prevent default form submission
@@ -190,6 +193,11 @@ function callWeatherApi(url, isCurrentLocation = false) {
 async function handleRemoveCity(name) {
   await firebaseController.removeLocation(currentUser, name, showToast);
   showLocations();
+}
+
+function handleAlarmUtilityClick(event) {
+  event.preventDefault();
+  window.location.href = "/alarm";
 }
 
 function handleCityClick(event) {
