@@ -23,7 +23,8 @@ export class FirebaseController {
                 email,
                 password,
                 username,
-                locations: []
+                locations: [],
+                alarm: {}
             });
         }
         catch (e) {
@@ -70,6 +71,19 @@ export class FirebaseController {
         }
     }
 
+    async updateAlarm(uid, newAlarm) {
+        const usersRef = doc(this.database, "users", uid);
+        const docSnap = await getDoc(usersRef);
+
+        if (docSnap.exists()) {
+            if (docSnap.data().locations.indexOf(location) == -1) {
+                await updateDoc(usersRef, {
+                    alarm: newAlarm
+                });
+            }
+        }
+    }
+
     async removeLocation(uid, location, errorCallback) {
         const usersRef = doc(this.database, "users", uid);
         const docSnap = await getDoc(usersRef);
@@ -96,6 +110,17 @@ export class FirebaseController {
 
         if (docSnap.exists()) {
             return docSnap.data().locations;
+        }
+
+        return null;
+    }
+
+    async getAlarm(uid) {
+        const usersRef = doc(this.database, "users", uid);
+        const docSnap = await getDoc(usersRef);
+
+        if (docSnap.exists()) {
+            return docSnap.data().alarm;
         }
 
         return null;

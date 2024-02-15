@@ -2,12 +2,14 @@
 // parameter when you first load the API. For example:
 // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places"
 import { GoogleMapsController } from './googleMapsController.js';
+import { FirebaseController } from "./firebaseController.js";
 
 let originCoordinates = null;
 let destinationCoordinates = null;
 let alarmTimeInput = null;
+const currentUser = localStorage.getItem("currentUser");
 
-function initMap() {
+async function initMap() {
   const map = new google.maps.Map(document.getElementById("map"), {
     center: { lat: 40.749933, lng: -73.98633 },
     zoom: 13,
@@ -64,7 +66,8 @@ function initMap() {
 
     originCoordinates = {
       lng: place.geometry.location.lng(),
-      lat: place.geometry.location.lat()
+      lat: place.geometry.location.lat(),
+      name: place.formatted_address
     };
 
     // If the place has a geometry, then present it on a map.
@@ -98,7 +101,8 @@ function initMap() {
 
     destinationCoordinates = {
       lng: place.geometry.location.lng(),
-      lat: place.geometry.location.lat()
+      lat: place.geometry.location.lat(),
+      name: place.formatted_address
     };
 
     // If the place has a geometry, then present it on a map.
@@ -160,6 +164,20 @@ function initMap() {
 
     originInput.value = "";
   });
+
+  const firebaseController = new FirebaseController();
+  const currentAlarm = await firebaseController.getAlarm(currentUser);
+  if (currentAlarm != null) {
+    originInput.value = currentAlarm.origin.name;
+    destination.value = currentAlarm.destination.name;
+    originCoordinates = currentAlarm.origin;
+    destinationCoordinates = currentAlarm.destination; 
+    alarmTimeInput.value = currentAlarm.time;
+    
+    let mapsController = new GoogleMapsController();
+    mapsController.setNewAlarm(originCoordinates, destinationCoordinates, alarmTimeInput.value, currentUser, currentAlarm.travelMode);
+  }
+
 }
 
 function addAlarm(event) {
@@ -181,7 +199,7 @@ function addAlarm(event) {
   }
 
   let mapsController = new GoogleMapsController();
-  mapsController.getDuration(originCoordinates, destinationCoordinates, alarmTimeInput.value);
+  mapsController.setNewAlarm(originCoordinates, destinationCoordinates, alarmTimeInput.value, currentUser);
 }
 
 window.initMap = initMap;

@@ -132,7 +132,6 @@ function callWeatherApi(url, isCurrentLocation = false) {
       // Let's destructure the data object
       const { main, name, sys, weather } = data;
 
-      console.log("adding location0", currentUser, name);
       firebaseController.addLocation(currentUser, name);
 
       // Define the icon location
