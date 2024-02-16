@@ -167,7 +167,8 @@ async function initMap() {
 
   const firebaseController = new FirebaseController();
   const currentAlarm = await firebaseController.getAlarm(currentUser);
-  if (currentAlarm != null) {
+  
+  if (currentAlarm != null && Object.keys(currentAlarm).length !== 0) {
     originInput.value = currentAlarm.origin.name;
     destination.value = currentAlarm.destination.name;
     originCoordinates = currentAlarm.origin;
