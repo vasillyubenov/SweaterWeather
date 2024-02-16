@@ -25,7 +25,11 @@ export class GoogleMapsController {
     let currentHours = currentTime.getHours();
     let currentMinutes = currentTime.getMinutes();
 
-    let inputTime = new Date(`2024-01-01T${time}:00`); // assuming time is in HH:MM format
+    // Setting todays time
+    let inputTime = new Date();
+    inputTime.setHours(time.split(":")[0]);
+    inputTime.setMinutes(time.split(":")[1]);
+
     let inputHours = inputTime.getHours();
     let inputMinutes = inputTime.getMinutes();
     let isForTommorow = false;
@@ -36,10 +40,13 @@ export class GoogleMapsController {
       isForTommorow = true;
     }
 
+    if (isForTommorow) {
+      inputTime.setDate(inputTime.getDate() + 1);
+    }
+
     fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${midpoint.lat()}&lon=${midpoint.lng()}&appid=${process.env.API_KEY}&units=metric`).then((response) => {
       return response.json();
     }).then(data => {
-      // add guards for the things below
       if ((data.cod < 200 || data.cod > 299) || !data.list || data.list.length == 0) {
         alert("No weather data found");
         return;
@@ -65,7 +72,7 @@ export class GoogleMapsController {
     let increasePercent = this.getTimeIncrease(condition);
     let service = new google.maps.DistanceMatrixService;
     let travelModeInput = document.getElementById("travel-mode");
-    
+
     if (!this.travelMode) {
       this.travelMode = travelModeInput.value;
     }
@@ -90,6 +97,7 @@ export class GoogleMapsController {
       alert(`There is no such ${this.travelMode} route`);
       return;
     }
+
     //Updating user db
     this.updateDatabase(origin, destination, this.travelMode, alarmDate.getHours().toString().padStart(2, '0') + ":" + alarmDate.getMinutes().toString().padStart(2, '0'));
 
@@ -103,15 +111,10 @@ export class GoogleMapsController {
     let newDuration = duration * (1 + increasePercent / 100);
 
     alarmDate.setSeconds(alarmDate.getSeconds() - newDuration);
-    //Display somewhere delta duration 
-    let departureDate = alarmDate.getHours().toString().padStart(2, '0') + ":" + alarmDate.getMinutes().toString().padStart(2, '0');
-    if (alarmDate.getHours > 12) {
-      departureDate += "PM";
-    }
-    else {
-      departureDate += "AM";
-    }
-    document.getElementById("suggested-time").innerHTML = `The suggested departure time is ${departureDate}`;
+
+    //Display somewhere delta duration and suggested time
+    let dateString = this.getFormatedDate(alarmDate);
+    document.getElementById("suggested-time").innerHTML = `The suggested departure time is ${dateString}`;
   }
 
   async updateDatabase(origin, destination, travelMode, time) {
@@ -123,6 +126,19 @@ export class GoogleMapsController {
       destination,
       travelMode
     });
-    alert("Alarm updated successfully");
+
+    console.log("Alarm updated successfully");
+  }
+
+  getFormatedDate(date) {
+    let timeFormat = date.getHours().toString().padStart(2, '0') + ":" + date.getMinutes().toString().padStart(2, '0');
+    if (date.getHours > 12) {
+      timeFormat += " PM ";
+    }
+    else {
+      timeFormat += " AM ";
+    }
+
+    return `${timeFormat} ${date.toLocaleDateString("en-GB")}`;
   }
 }

@@ -171,13 +171,12 @@ async function initMap() {
     originInput.value = currentAlarm.origin.name;
     destination.value = currentAlarm.destination.name;
     originCoordinates = currentAlarm.origin;
-    destinationCoordinates = currentAlarm.destination; 
+    destinationCoordinates = currentAlarm.destination;
     alarmTimeInput.value = currentAlarm.time;
-    
+
     let mapsController = new GoogleMapsController();
     mapsController.setNewAlarm(originCoordinates, destinationCoordinates, alarmTimeInput.value, currentUser, currentAlarm.travelMode);
   }
-
 }
 
 function addAlarm(event) {
