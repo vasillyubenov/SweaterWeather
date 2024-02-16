@@ -97,8 +97,10 @@ export class FirebaseController {
                 await updateDoc(usersRef, {
                     locations: locs
                 });
+                return;
             }
             errorCallback("No such city!");
+            return;
         }
 
         errorCallback("User doesn't exist!");

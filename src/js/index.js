@@ -126,7 +126,7 @@ function callWeatherApi(url, isCurrentLocation = false) {
     .then((data) => {
       // If we get a 404 code, throw an error
       if (data.cod == "404") {
-        throw new Error(`${data.cod}, ${data.message}`);
+        showToast("City not found!");
       }
 
       // Let's destructure the data object
@@ -179,6 +179,7 @@ function callWeatherApi(url, isCurrentLocation = false) {
       list.appendChild(li);
     })
     .catch(() => {
+      showToast("City not found!");
       msg.textContent = "Please search for a valid city!";
       msg.classList.add("visible");
     });
