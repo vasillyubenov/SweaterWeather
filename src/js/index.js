@@ -6,6 +6,7 @@ const searchForm = document.querySelector("#search-form");
 const compareForm = document.querySelector("#compare-form");
 const input = document.querySelector("#search-term");
 const alarm = document.querySelector("#alarm-utility");
+const logoutButton = document.querySelector("#logout-btn");
 const msg = document.querySelector(".form-msg");
 const list = document.querySelector(".cities");
 
@@ -18,6 +19,8 @@ if (!currentUser) {
 const apiKey = process.env.API_KEY;
 
 alarm.addEventListener("click", handleAlarmUtilityClick);
+
+logoutButton.addEventListener("click", logoutUser);
 
 searchForm.addEventListener("submit", (e) => {
   // Prevent default form submission
@@ -207,6 +210,12 @@ function handleCityClick(event) {
 
   // Redirect to the detail page with the extracted coordinates
   window.location.href = `/detail?lat=${lat}&lon=${lon}`;
+}
+
+function logoutUser(event) {
+  event.preventDefault();
+  localStorage.removeItem("currentUser");
+  window.location.href = "/";
 }
 
 function showToast(text) {
