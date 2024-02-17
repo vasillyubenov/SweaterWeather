@@ -176,7 +176,7 @@ async function initMap() {
     alarmTimeInput.value = currentAlarm.time;
 
     let mapsController = new GoogleMapsController();
-    mapsController.setNewAlarm(originCoordinates, destinationCoordinates, alarmTimeInput.value, currentUser, currentAlarm.travelMode);
+    mapsController.getDurationBetweenPoints(originCoordinates, destinationCoordinates, alarmTimeInput.value, currentUser, currentAlarm.travelMode);
   }
 }
 
@@ -199,7 +199,7 @@ function addAlarm(event) {
   }
 
   let mapsController = new GoogleMapsController();
-  mapsController.setNewAlarm(originCoordinates, destinationCoordinates, alarmTimeInput.value, currentUser);
+  mapsController.getDurationBetweenPoints(originCoordinates, destinationCoordinates, alarmTimeInput.value, currentUser);
 }
 
 window.initMap = initMap;

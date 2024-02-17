@@ -6,6 +6,51 @@ export class GoogleMapsController {
     this.apiKey = apiKey;
   }
 
+  // takes n points
+  // get the n points
+  // get the duration between points
+  // get time increasement between each interval 
+  // sum
+
+  getEquallySpacedWaypoints(start, finish, n) {
+    const latStart = start.lat;
+    const lonStart = start.lng;
+
+    const latFinish = finish.lat;
+    const lonFinish = finish.lng;
+
+    const latDiff = latFinish - latStart;
+    const lonDiff = lonFinish - lonStart;
+
+    const latIncrement = latDiff / (n + 1);
+    const lonIncrement = lonDiff / (n + 1);
+
+    const waypoints = [start];
+
+    for (let i = 1; i <= n; i++) {
+        // Calculate latitude and longitude of current waypoint
+        const lat = latStart + i * latIncrement;
+        const lng = lonStart + i * lonIncrement;
+        // Append waypoint to array
+        waypoints.push({lat, lng});
+    }
+    waypoints.push(finish);
+    return waypoints;
+}
+
+  async getDurationBetweenPoints(origin, destination, time, currentUser, travelMode) {
+    let waypoints = this.getEquallySpacedWaypoints(origin, destination, 3);
+    let currentOrigin = waypoints[0];
+    let sumDuration = 0;
+
+    for (let i = 1; i < waypoints.length - 1; i++) {
+      sumDuration += await this.setNewAlarm(currentOrigin, waypoints[i], time, currentUser, travelMode);
+      currentOrigin = waypoints[i];
+    }
+    
+    return sumDuration;
+  }
+
   async setNewAlarm(origin, destination, time, currentUser, travelMode) {
     this.currentUser = currentUser;
     this.travelMode = travelMode;
@@ -43,22 +88,24 @@ export class GoogleMapsController {
     if (isForTommorow) {
       inputTime.setDate(inputTime.getDate() + 1);
     }
-
-    fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${midpoint.lat()}&lon=${midpoint.lng()}&appid=${process.env.API_KEY}&units=metric`).then((response) => {
+    let vasko = 0;
+    await fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${midpoint.lat()}&lon=${midpoint.lng()}&appid=${process.env.API_KEY}&units=metric`).then((response) => {
       return response.json();
-    }).then(data => {
+    }).then(async data => {
       if ((data.cod < 200 || data.cod > 299) || !data.list || data.list.length == 0) {
         alert("No weather data found");
         return;
       }
 
       if (isForTommorow) {
-        this.updateSuggestedWakeTime(data.list[1].weather[0].description, origin, destination, inputTime);
+        vasko = await this.updateSuggestedWakeTime(data.list[1].weather[0].description, origin, destination, inputTime);
         return;
       }
 
-      this.updateSuggestedWakeTime(data.list[0].weather[0].description, origin, destination, inputTime);
+      vasko = await this.updateSuggestedWakeTime(data.list[0].weather[0].description, origin, destination, inputTime);
     });
+
+    return vasko;
   }
 
   getTimeIncrease(condition) {
@@ -68,7 +115,7 @@ export class GoogleMapsController {
     return weatherConditions[condition];
   }
 
-  updateSuggestedWakeTime(condition, origin, destination, alarmDate) {
+  async updateSuggestedWakeTime(condition, origin, destination, alarmDate) {
     let increasePercent = this.getTimeIncrease(condition);
     let service = new google.maps.DistanceMatrixService;
     let travelModeInput = document.getElementById("travel-mode");
@@ -79,17 +126,21 @@ export class GoogleMapsController {
     else {
       travelModeInput.value = this.travelMode;
     }
-
-    service.getDistanceMatrix({
+    let vasko2 = 0;
+    await service.getDistanceMatrix({
       origins: [origin],
       destinations: [destination],
       travelMode: this.travelMode,
       unitSystem: google.maps.UnitSystem.METRIC
     })
-      .then((resp) => this.onGetDistanceMatrix(resp, increasePercent, alarmDate, origin, destination))
+      .then((resp) =>  {
+        vasko2 = this.onGetDistanceMatrix(resp, increasePercent, alarmDate, origin, destination);
+      })
       .catch((error) => {
         console.log(`Error: ${error}`);
       });
+
+      return vasko2;
   }
 
   onGetDistanceMatrix(response, increasePercent, alarmDate, origin, destination) {
@@ -97,8 +148,10 @@ export class GoogleMapsController {
       alert(`There is no such ${this.travelMode} route`);
       return;
     }
-
-    //Updating user db
+    console.log(origin);
+    console.log(this.getEquallySpacedWaypoints(origin, destination, 3));
+    console.log(destination);
+    
     this.updateDatabase(origin, destination, this.travelMode, alarmDate.getHours().toString().padStart(2, '0') + ":" + alarmDate.getMinutes().toString().padStart(2, '0'));
 
     let data = response["rows"][0]["elements"][0];
@@ -115,6 +168,7 @@ export class GoogleMapsController {
     //Display somewhere delta duration and suggested time
     let dateString = this.getFormatedDate(alarmDate);
     document.getElementById("suggested-time").innerHTML = `The suggested departure time is ${dateString}`;
+    return newDuration;
   }
 
   async updateDatabase(origin, destination, travelMode, time) {
